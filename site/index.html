@@ -1,0 +1,129 @@
+<title>godsplan</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Agent skills, rules and MCP servers that someone actually checked.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Schibsted+Grotesk:ital,wght@0,400;0,500;0,700;0,800;1,400&display=swap">
+<style>/*CSS*/</style>
+
+<div class="wrap">
+  <nav class="top">
+    <a class="brand" href="#">godsplan</a>
+    <span class="top__tag">{{TOTAL}} entries · {{VERIFIED}} verified</span>
+    <a class="top__link" href="#how">How checking works</a>
+    <a class="top__link" href="#submit">Submit</a>
+  </nav>
+
+  <main id="home">
+    <section class="hero">
+      <div class="hero__copy">
+        <h1>Skills someone <em>actually</em> checked.</h1>
+        <p class="lede">You shouldn't have to spend 30 minutes auditing a stranger's markdown before you trust your agent with it. Every skill, rules file and MCP server here passes an automated scanner, then a person reviews the exact bytes. Change one byte and the badge comes off.</p>
+        <p class="hero__try">The skill on the right looks harmless. Step 2 hides an instruction in characters you can't see. Press <strong>Check</strong>, or paste your own.</p>
+      </div>
+
+      <div class="checker" aria-labelledby="checker-title">
+        <div class="checker__bar">
+          <span id="checker-title" class="checker__title">Check before you install</span>
+          <span class="checker__local">Runs in your browser. Nothing is uploaded.</span>
+        </div>
+        <label class="sr-only" for="check-input">Skill, rules file or server.json to check</label>
+        <textarea id="check-input" spellcheck="false" rows="11"></textarea>
+        <div class="checker__actions">
+          <button type="button" class="btn" id="check-run">Check</button>
+          <label class="btn btn--ghost" for="check-folder">Check a folder…</label>
+          <input type="file" id="check-folder" webkitdirectory multiple hidden>
+          <button type="button" class="btn btn--ghost" id="check-clear">Clear</button>
+        </div>
+        <div id="check-result" class="report" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <section class="registry" aria-labelledby="registry-title">
+      <div class="registry__head">
+        <h2 id="registry-title">The registry</h2>
+        <div class="filters" role="group" aria-label="Filter by type">
+          <button type="button" data-kind="all" aria-pressed="true">All</button>
+          <button type="button" data-kind="skill" aria-pressed="false">Skills</button>
+          <button type="button" data-kind="rules" aria-pressed="false">Rules</button>
+          <button type="button" data-kind="mcp" aria-pressed="false">MCP servers</button>
+        </div>
+        <label class="sr-only" for="search">Search entries</label>
+        <input id="search" type="search" placeholder="Search: supabase, testing, pdf…" autocomplete="off">
+        <span id="ledger-count" class="count"></span>
+      </div>
+      <div class="legend">
+        <span class="stamp stamp--verified">Verified</span> scanner + human review of these exact files
+        <span class="stamp stamp--unreviewed">Scanned</span> scanner passed, review pending
+        <span class="stamp stamp--review-stale">Review outdated</span> files changed since review
+      </div>
+      <div id="ledger" class="ledger"></div>
+    </section>
+
+    <section id="how" class="how">
+      <h2>How checking works</h2>
+      <p class="lede">Built from what actually goes wrong: skills that fail to load, skills that never trigger, and the attacks researchers have documented in skills, rules files and MCP servers.</p>
+      <div class="checks">
+        <div class="check">
+          <h3>Does it load</h3>
+          <p>Frontmatter against the <a href="https://agentskills.io/specification" rel="noopener">Agent Skills spec</a>: <code>name</code> is 1–64 lowercase characters and matches its folder, <code>description</code> is at most 1,024 characters, no unknown fields. YAML that doesn't parse (usually an unquoted colon). Links to <code>references/</code> or <code>scripts/</code> files that aren't there.</p>
+        </div>
+        <div class="check">
+          <h3>Will it trigger</h3>
+          <p>The agent only reads the description when deciding whether to use a skill. Descriptions that are too short, or never say when to use the skill, are flagged, because a skill that never triggers is just as useless as a broken one.</p>
+        </div>
+        <div class="check">
+          <h3>Hidden text</h3>
+          <p>Unicode Tag characters (decoded, so you see the hidden message), bidirectional controls, zero-width characters, variation-selector smuggling, and long HTML comments that GitHub doesn't show but the agent reads.</p>
+        </div>
+        <div class="check">
+          <h3>Instructions that turn on you</h3>
+          <p>"Ignore previous instructions", "don't tell the user", fake <code>&lt;IMPORTANT&gt;</code> blocks, and instructions to send keys or tokens to a URL. Mentions of SSH keys, cloud credentials or other agents' MCP configs.</p>
+        </div>
+        <div class="check">
+          <h3>Risky code</h3>
+          <p><code>curl | bash</code>, decode-and-execute, reading credential files, copying the whole environment in a file that also makes network calls, cron jobs and shell-profile edits, <code>sudo</code>, binaries nobody can read, and real API keys.</p>
+        </div>
+        <div class="check">
+          <h3>MCP servers</h3>
+          <p>Package versions pinned exactly, no plain-http remotes, Docker images pinned by digest. The server's tool descriptions are captured from the running server, scanned, and kept so a later change shows up as a diff.</p>
+        </div>
+      </div>
+
+      <div class="limits">
+        <h3>What a check can't tell you</h3>
+        <ul>
+          <li>A clean scan means nothing obvious is wrong. It doesn't mean the skill is good. That's why a person reviews each entry.</li>
+          <li>For MCP servers we check the config and what the tools say about themselves, not the server's source code.</li>
+          <li>Pattern checks catch known tricks. A new trick can get past them, and a person can miss it too.</li>
+        </ul>
+      </div>
+
+      <div class="field-test">
+        <h3>Field test: Anthropic's official skills</h3>
+        <p>We ran the scanner over all 19 skills in <a href="https://github.com/anthropics/skills/tree/34040c9c568585f6929bedeaad110ad08f079624" rel="noopener">anthropics/skills</a> at commit <code>34040c9</code>. <strong>14</strong> had no issues. <strong>4</strong> needed a look: three descriptions never say when to use the skill, and one script installs a package without pinning its version. <strong>1</strong> was blocked: <code>claude-api</code> has a 1,068-character description, over the spec's 1,024 limit. The first run raised seven false alarms. Each was fixed and is now a test that keeps it from coming back.</p>
+      </div>
+    </section>
+
+    <section id="submit" class="submit">
+      <h2>Submit a skill</h2>
+      <ol class="steps">
+        <li><span>Check it here first.</span> Fix every problem, or be ready to explain why it's safe.</li>
+        <li><span>Open a pull request</span> adding <code>registry/&lt;name&gt;/</code> with the files and a <code>godsplan.yml</code> saying where it came from and under what license.</li>
+        <li><span>The scanner runs on the pull request.</span> Anything allowed past a check needs a written reason, and that reason is shown on the entry page.</li>
+        <li><span>A maintainer reviews it</span> and runs <code>godsplan review</code>, which pins the review to the content hash.</li>
+      </ol>
+    </section>
+  </main>
+
+  <article id="entry" class="entry" hidden></article>
+
+  <footer class="foot">
+    <span>godsplan</span>
+    <span>Scanner rules and site are open source. Checked is not the same as guaranteed. Read what you install.</span>
+  </footer>
+</div>
+
+<script type="application/json" id="registry-data"><!--DATA--></script>
+<script>/*JS*/</script>

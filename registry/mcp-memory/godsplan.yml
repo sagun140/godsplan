@@ -1,0 +1,12 @@
+kind: mcp
+title: Memory (MCP)
+summary: Gives your agent a local knowledge graph so it can remember people, projects and facts between sessions.
+tags: [memory, local]
+works_with: [Claude Code, Claude Desktop, Cursor]
+source:
+  repo: https://github.com/modelcontextprotocol/servers
+  path: src/memory
+  package: "@modelcontextprotocol/server-memory@2026.8.31"
+  license: SEE LICENSE IN LICENSE (npm)
+  author: Model Context Protocol maintainers
+setup: Stores everything in a local JSON file. Anything you tell it stays on disk in plain text.

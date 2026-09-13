@@ -1,0 +1,11 @@
+kind: skill
+title: Web Artifacts Builder
+summary: Scaffolds multi-component React + Tailwind + shadcn/ui artifacts and bundles them into a single HTML file.
+tags: [react, tailwind, shadcn]
+works_with: [Claude Code, Claude.ai, Claude API]
+source:
+  repo: https://github.com/anthropics/skills
+  path: skills/web-artifacts-builder
+  commit: 34040c9c568585f6929bedeaad110ad08f079624
+  license: Apache-2.0
+  author: Anthropic

@@ -1,0 +1,11 @@
+kind: skill
+title: Web App Testing
+summary: Drives your local web app in a real browser with Playwright to click through it, screenshot it and read its console.
+tags: [testing, playwright, browser]
+works_with: [Claude Code, Claude.ai, Claude API]
+source:
+  repo: https://github.com/anthropics/skills
+  path: skills/webapp-testing
+  commit: 34040c9c568585f6929bedeaad110ad08f079624
+  license: Apache-2.0
+  author: Anthropic

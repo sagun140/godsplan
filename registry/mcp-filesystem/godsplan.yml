@@ -1,0 +1,12 @@
+kind: mcp
+title: Filesystem (MCP)
+summary: Lets your agent read, write, search and move files, but only inside folders you list.
+tags: [files, local]
+works_with: [Claude Code, Claude Desktop, Cursor]
+source:
+  repo: https://github.com/modelcontextprotocol/servers
+  path: src/filesystem
+  package: "@modelcontextprotocol/server-filesystem@2026.8.31"
+  license: SEE LICENSE IN LICENSE (npm)
+  author: Model Context Protocol maintainers
+setup: Replace <folder-you-allow> with the one folder the agent may touch. Never pass your home folder.

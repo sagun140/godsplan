@@ -1,0 +1,10 @@
+kind: rules
+title: Supabase Safety Rules
+summary: Stops your coding agent from shipping the classic vibe-coded Supabase leaks, like an exposed service-role key or tables without row-level security.
+tags: [supabase, security, lovable]
+works_with: [Cursor, Codex, Claude Code (as CLAUDE.md), any AGENTS.md tool]
+source:
+  repo: https://github.com/sagun140/godsplan
+  path: registry/supabase-safety-rules
+  license: MIT
+  author: godsplan (drafted with Claude; needs a human review before it counts as verified)

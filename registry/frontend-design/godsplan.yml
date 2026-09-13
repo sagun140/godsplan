@@ -1,0 +1,11 @@
+kind: skill
+title: Frontend Design
+summary: Pushes UI work away from generic templated looks toward deliberate typography, color and layout.
+tags: [ui, design, frontend]
+works_with: [Claude Code, Claude.ai, Claude API]
+source:
+  repo: https://github.com/anthropics/skills
+  path: skills/frontend-design
+  commit: 34040c9c568585f6929bedeaad110ad08f079624
+  license: Apache-2.0
+  author: Anthropic

@@ -1,0 +1,4 @@
+# A review in godsplan.yml is a signature. Only maintainers may add or change one.
+/registry/**/godsplan.yml @sagun140
+/scanner/ @sagun140
+/.github/ @sagun140

@@ -1,0 +1,11 @@
+kind: skill
+title: MCP Builder
+summary: Guides building a well-designed MCP server in Python or TypeScript, including writing evaluations for it.
+tags: [mcp, backend, tooling]
+works_with: [Claude Code, Claude.ai, Claude API]
+source:
+  repo: https://github.com/anthropics/skills
+  path: skills/mcp-builder
+  commit: 34040c9c568585f6929bedeaad110ad08f079624
+  license: Apache-2.0
+  author: Anthropic

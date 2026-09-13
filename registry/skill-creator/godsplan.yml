@@ -1,0 +1,11 @@
+kind: skill
+title: Skill Creator
+summary: Helps you write, test and tune your own skills, including evals that check the skill actually triggers.
+tags: [skills, meta, evals]
+works_with: [Claude Code, Claude.ai, Claude API]
+source:
+  repo: https://github.com/anthropics/skills
+  path: skills/skill-creator
+  commit: 34040c9c568585f6929bedeaad110ad08f079624
+  license: Apache-2.0
+  author: Anthropic
