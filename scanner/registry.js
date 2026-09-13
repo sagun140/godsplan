@@ -22,9 +22,11 @@ export function readFolder(dir) {
       else {
         const path = relative(dir, full).split(sep).join('/');
         if (path === META_FILE) continue;
-        // Binary check needs only the name; big files are listed but not loaded.
-        const content = st.size > MAX_BYTES ? '' : readFileSync(full, 'utf8');
-        files.push({ path, content, bytes: st.size });
+        // Binary check needs only the name; big files are listed but not scanned.
+        // raw keeps the exact bytes so the review hash covers them either way.
+        const raw = readFileSync(full);
+        const content = st.size > MAX_BYTES ? '' : raw.toString('utf8');
+        files.push({ path, content, raw, bytes: st.size });
       }
     }
   };
@@ -37,7 +39,8 @@ export function readFolder(dir) {
 export function contentHash(files) {
   const h = createHash('sha256');
   for (const f of [...files].sort((a, b) => a.path.localeCompare(b.path))) {
-    h.update(f.path).update('\0').update(f.content).update('\0');
+    // Hash bytes, not decoded text: invalid UTF-8 all decodes to U+FFFD, and big files have no content.
+    h.update(f.path).update('\0').update(f.raw ?? f.content).update('\0');
   }
   return `sha256:${h.digest('hex')}`;
 }
