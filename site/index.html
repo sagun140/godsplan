@@ -13,6 +13,7 @@
     <span class="top__tag">{{TOTAL}} entries · {{VERIFIED}} verified</span>
     <a class="top__link" href="#how">How checking works</a>
     <a class="top__link" href="#submit">Submit</a>
+    <span id="auth" class="top__auth" hidden></span>
   </nav>
 
   <main id="home">
@@ -108,6 +109,8 @@
 
     <section id="submit" class="submit">
       <h2>Submit a skill</h2>
+      <div id="submit-wiki" hidden></div>
+      <h3 class="submit__alt">Or through GitHub</h3>
       <ol class="steps">
         <li><span>Check it here first.</span> Fix every problem, or be ready to explain why it's safe.</li>
         <li><span>Open a pull request</span> adding <code>registry/&lt;name&gt;/</code> with the files and a <code>godsplan.yml</code> saying where it came from and under what license.</li>
@@ -121,7 +124,8 @@
 
   <footer class="foot">
     <span>godsplan</span>
-    <span>Scanner rules and site are open source. Checked is not the same as guaranteed. Read what you install.</span>
+    <span>Scanner rules and site are <a href="https://github.com/sagun140/godsplan" rel="noopener">open source</a>. Checked is not the same as guaranteed. Read what you install.</span>
+    <span id="tip" class="tip" hidden>Keep it running: tip USDC on Base to <code id="tip-address" class="wallet"></code> <button type="button" class="btn btn--small btn--ghost" data-copy="tip-address">Copy</button> · Agents: <a href="/api/v1">pay-per-call API</a></span>
   </footer>
 </div>
 

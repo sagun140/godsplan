@@ -172,7 +172,7 @@ p { margin: 0; }
 .legend .stamp:first-child { margin-left: 0; }
 
 .ledger { border-top: 1px solid var(--ink); }
-.row { display: grid; grid-template-columns: minmax(0, 1fr) 7rem 7.5rem 12rem; gap: 1.25rem; align-items: center; padding-block: 1rem; padding-inline: 0.5rem; border-bottom: 1px solid var(--rule); color: var(--ink); text-decoration: none; }
+.row { display: grid; grid-template-columns: minmax(0, 1fr) 7rem 4.5rem 7.5rem 12rem; gap: 1.25rem; align-items: center; padding-block: 1rem; padding-inline: 0.5rem; border-bottom: 1px solid var(--rule); color: var(--ink); text-decoration: none; }
 .row:hover { background: var(--surface); }
 .row:hover .row__title { color: var(--accent); }
 .row__main { display: grid; gap: 0.2rem; min-width: 0; }
@@ -223,6 +223,46 @@ p { margin: 0; }
 
 .foot { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; padding-block: 1.5rem; border-top: 1px solid var(--rule); color: var(--muted); font-size: var(--s-1); }
 .foot span:first-child { font-weight: 800; color: var(--ink); }
+
+/* Wiki: sign-in, ratings, submissions, paid reviews */
+.top__auth { display: inline-flex; align-items: center; gap: 0.6rem; font-size: var(--s-1); }
+.top__user { font-family: var(--mono); color: var(--muted); }
+.top__button { background: none; border: 0; padding: 0; cursor: pointer; font-family: inherit; }
+.row__community { display: block; color: var(--accent); margin-top: 0.2rem; }
+.row__rating { font-size: var(--s-1); white-space: nowrap; }
+.stars { color: var(--warn); letter-spacing: 0.05em; }
+.stars__n { color: var(--muted); }
+.stars--big { font-size: 1.15rem; }
+.rating-sum { margin: 0; }
+.reviews { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.75rem; }
+.reviews li { border-bottom: 1px solid var(--rule); padding-bottom: 0.75rem; }
+.reviews p { margin: 0.35rem 0 0; }
+.rate, .submit-form { display: grid; gap: 0.85rem; max-width: 640px; background: var(--surface); border: 1px solid var(--rule); border-radius: var(--radius); padding: 1rem; }
+.rate label, .submit-form label { display: grid; gap: 0.3rem; font-size: var(--s-1); font-weight: 500; }
+.rate input:not([type=radio]), .rate select, .rate textarea, .submit-form input:not([type=checkbox]), .submit-form textarea, .pay input, .admin input {
+  font: inherit; font-size: var(--s-1); color: var(--ink); background: var(--paper); border: 1px solid var(--rule); border-radius: 4px; padding: 0.5rem 0.6rem; min-width: 0; max-width: 100%; }
+.submit-form textarea { font-family: var(--mono); font-size: 0.78rem; }
+.rate__row, .submit-form__row { display: flex; flex-wrap: wrap; gap: 1rem; }
+.submit-form__row label { flex: 1 1 12rem; }
+.rate__stars { border: 0; padding: 0; margin: 0; display: inline-flex; flex-direction: row-reverse; justify-content: flex-end; }
+.rate__stars legend { font-size: var(--s-1); font-weight: 500; margin-bottom: 0.3rem; }
+.rate__stars input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.rate__stars label { font-size: 1.6rem; color: var(--rule); cursor: pointer; padding-inline: 0.1rem; }
+.rate__stars input:checked ~ label, .rate__stars label:hover, .rate__stars label:hover ~ label { color: var(--warn); }
+.rate__stars input:focus-visible + label { outline: 2px solid var(--accent); border-radius: 2px; }
+.rate__actions, .pay, .admin { display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem; }
+.pay input { flex: 1 1 20rem; font-family: var(--mono); }
+.admin { border-top: 1px dashed var(--rule); padding-top: 0.85rem; }
+.admin input { flex: 1 1 14rem; }
+.form-msg { font-size: var(--s-1); color: var(--muted); }
+.works { border: 0; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 0.4rem 1rem; }
+.works legend { font-size: var(--s-1); font-weight: 500; margin-bottom: 0.3rem; }
+.works label, .check-line { display: inline-flex !important; align-items: center; gap: 0.35rem; font-weight: 400 !important; }
+.submit-form label.btn { display: inline-block; font-weight: 600; }
+.submit__alt { margin: 0.5rem 0 0; font-size: var(--s0, 1rem); }
+.wallet { font-family: var(--mono); font-size: 0.78rem; word-break: break-all; }
+.tip { flex-basis: 100%; }
+
 
 @media (max-width: 900px) {
   .hero, .cert { grid-template-columns: minmax(0, 1fr); }

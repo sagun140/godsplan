@@ -56,6 +56,8 @@ const html = readFileSync(`${root}site/index.html`, 'utf8')
   .replaceAll('{{TOTAL}}', String(counts.total))
   .replaceAll('{{VERIFIED}}', String(counts.verified));
 
-mkdirSync(`${root}dist`, { recursive: true });
+mkdirSync(`${root}dist/_data`, { recursive: true });
 writeFileSync(`${root}dist/index.html`, html);
+// The Worker reads this through its ASSETS binding; the public path itself returns 404.
+writeFileSync(`${root}dist/_data/registry.json`, JSON.stringify(entries));
 console.log(`dist/index.html  ${(html.length / 1024).toFixed(0)} KB  ${counts.total} entries, ${counts.verified} verified`);
