@@ -42,6 +42,7 @@ scanner/core/           pure checks (files in, report out), shared by CLI, CI an
 scanner/cli.js          godsplan check | review
 scanner/snapshot-mcp.js capture or diff an MCP server's advertised tools
 site/                   static site, built into one self-contained dist/index.html
+worker/                 Cloudflare Worker: sign-in, submissions, ratings, paid reviews, agent API
 ```
 
 ```sh
@@ -52,6 +53,32 @@ npm run build     # dist/index.html
 ```
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) to add an entry or review one.
+
+## The wiki
+
+Live at https://godsplan.lexicon-planes.workers.dev. Behind the Worker, the static site becomes a wiki:
+
+- **Submit from the site.** Sign in with GitHub, paste a file or pick a folder. The server runs the same scanner, refuses anything blocked, and lists the rest as *Scanned*. Submissions share the repo's content hash, so a review drops to *Review outdated* the moment the files change.
+- **Rate anything.** 1 to 5 stars, whether it worked, and which agent it was tested on. One rating per GitHub account per entry; you can't rate your own submission.
+- **Paid review requests.** An author sends `REVIEW_PRICE_USDC` USDC on Base to the project wallet and pastes the transaction hash; the Worker checks the transfer on-chain and each transaction pays for one request. Paying buys a review, not the badge.
+- **Agent API (x402).** `GET /api/v1` lists prices. Search is $0.002 and a full entry (files, scan report, trust, ratings) is $0.01, paid in USDC on Base per call. Routes declare Bazaar discovery. Everything is also free on the site and in this repo; the API is for agents that would rather pay a cent than scrape.
+- **Tips** go to the same wallet, shown in the footer.
+
+Maintainers (the `ADMINS` var) verify or remove community submissions from the entry page.
+
+### Run and deploy
+
+```sh
+npx wrangler d1 execute godsplan --local --file worker/schema.sql
+printf 'SESSION_SECRET=dev\nGITHUB_CLIENT_ID=x\nGITHUB_CLIENT_SECRET=x\n' > .dev.vars
+npm run build && npx wrangler dev
+
+npx wrangler d1 execute godsplan --remote --file worker/schema.sql
+npx wrangler secret put SESSION_SECRET        # random, 32+ bytes
+npx wrangler secret put GITHUB_CLIENT_ID      # GitHub OAuth app, callback: <site>/auth/callback
+npx wrangler secret put GITHUB_CLIENT_SECRET
+npx wrangler deploy
+```
 
 ## Licenses
 

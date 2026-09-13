@@ -12,7 +12,7 @@
   },
   "d1_databases": [
     // database_id comes from `npx wrangler d1 create godsplan`
-    { "binding": "DB", "database_name": "godsplan", "database_id": "REPLACE_WITH_D1_ID" }
+    { "binding": "DB", "database_name": "godsplan", "database_id": "92a9e6d6-6f9a-440b-a1e4-59d41a39f403" }
   ],
   "vars": {
     // Wallet that receives USDC on Base: agent API calls, paid review requests and tips.
