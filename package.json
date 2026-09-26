@@ -1,9 +1,13 @@
 {
-  "name": "godsplan",
+  "name": "@sagun140/godsplan",
   "version": "0.1.0",
   "description": "A wiki of agent skills that someone actually checked.",
   "type": "module",
   "license": "MIT",
+  "repository": "github:sagun140/godsplan",
+  "files": [
+    "scanner/"
+  ],
   "bin": {
     "godsplan": "scanner/cli.js"
   },
