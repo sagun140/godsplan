@@ -11,7 +11,6 @@ Finding a good skill today means digging through GitHub repos, Discord threads a
 ## Check anything, right now
 
 ```sh
-npx godsplan check ./some-skill-folder      # once published to npm
 node scanner/cli.js check ./some-skill-folder
 ```
 
