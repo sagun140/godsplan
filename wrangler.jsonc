@@ -21,6 +21,8 @@
     "NETWORK": "eip155:8453",
     "FACILITATOR_URL": "https://facilitator.payai.network",
     "BASE_RPC_URL": "https://mainnet.base.org",
+    // "off" = nothing is charged: free agent API, no paid reviews, no tip line. "on" turns all three on.
+    "PAYMENTS": "off",
     "REVIEW_PRICE_USDC": "20",
     // GitHub logins allowed to verify or remove community submissions, comma-separated.
     "ADMINS": "sagun140"
