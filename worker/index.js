@@ -138,6 +138,7 @@ app.get('/api/site/me', async (c) => {
     admin: isAdmin(c, u),
     signin: Boolean(c.env.GITHUB_CLIENT_ID),
     wallet: { address: c.env.PAY_TO, network: 'Base', asset: 'USDC' },
+    payments: paymentsOn(c.env),
     review_price_usdc: Number(c.env.REVIEW_PRICE_USDC),
     agents: AGENTS,
   });
@@ -196,6 +197,7 @@ app.post('/api/site/entries/:slug/ratings', needUser, async (c) => {
 // Paying buys a human review, not the badge: the reviewer can still decline.
 app.post('/api/site/entries/:slug/review-request', needUser, async (c) => {
   const u = c.get('user');
+  if (!paymentsOn(c.env)) return c.json({ error: 'Paid reviews are switched off.' }, 403);
   const entry = await findEntry(c, c.req.param('slug'));
   if (!entry?.community) return c.json({ error: 'Only community submissions can request a paid review.' }, 404);
   const txHash = String((await c.req.json().catch(() => ({}))).tx_hash ?? '').trim().toLowerCase();
@@ -245,10 +247,14 @@ app.post('/api/site/admin/entries/:slug', needUser, async (c) => {
 
 // ---------- agent API (x402) ----------
 
+// PAYMENTS="off" turns every charge off: the agent API is free, paid reviews and tips are hidden.
+const paymentsOn = (env) => env.PAYMENTS === 'on';
+
 // The middleware syncs with the facilitator when created, and Workers cannot await I/O started by
 // another request, so each request builds its own until one finishes that sync (same as Lexicon Planes).
 let ready;
 const payments = async (c, next) => {
+  if (!paymentsOn(c.env)) return next();
   if (!/^0x[0-9a-fA-F]{40}$/.test(c.env.PAY_TO || '')) return c.json({ error: 'Payments are not configured.' }, 503);
   if (ready) return ready(c, next);
   const mw = buildPayments(c.env);
@@ -286,11 +292,11 @@ function buildPayments(env) {
 
 app.get('/api/v1', (c) => c.json({
   name: 'godsplan agent API',
-  about: 'Agent skills, rules files and MCP servers that passed a security scanner, with human reviews and community ratings.',
-  payment: { protocol: 'x402', network: c.env.NETWORK, asset: 'USDC', payTo: c.env.PAY_TO },
+  about: 'Agent skills, rules files and MCP servers that passed a security scanner. Each entry says whether a person has reviewed it; most have not.',
+  payment: paymentsOn(c.env) ? { protocol: 'x402', network: c.env.NETWORK, asset: 'USDC', payTo: c.env.PAY_TO } : 'free',
   endpoints: [
-    { path: '/api/v1/search?q={words}&kind={skill|rules|mcp}', price: PRICES.search, returns: 'Up to 20 matches with trust level and rating' },
-    { path: '/api/v1/entries/{slug}', price: PRICES.entry, returns: 'All files, scan report, hash, trust, ratings' },
+    { path: '/api/v1/search?q={words}&kind={skill|rules|mcp}', price: paymentsOn(c.env) ? PRICES.search : 'free', returns: 'Up to 20 matches with trust level and rating' },
+    { path: '/api/v1/entries/{slug}', price: paymentsOn(c.env) ? PRICES.entry : 'free', returns: 'All files, scan report, hash, trust, ratings' },
   ],
   source: 'https://github.com/sagun140/godsplan',
 }));

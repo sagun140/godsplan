@@ -19,8 +19,8 @@
   <main id="home">
     <section class="hero">
       <div class="hero__copy">
-        <h1>Skills someone <em>actually</em> checked.</h1>
-        <p class="lede">You shouldn't have to spend 30 minutes auditing a stranger's markdown before you trust your agent with it. Every skill, rules file and MCP server here passes an automated scanner, then a person reviews the exact bytes. Change one byte and the badge comes off.</p>
+        <h1>Check a skill <em>before</em> you trust it.</h1>
+        <p class="lede">You shouldn't have to spend 30 minutes auditing a stranger's markdown before you trust your agent with it. Every skill, rules file and MCP server here passes an automated scanner. A person reviews entries when they can, and only reviewed ones say <strong>Verified</strong>: the review covers the exact bytes, so change one byte and the badge comes off. Most entries haven't been reviewed yet, and the count at the top says how many have.</p>
         <p class="hero__try">The skill on the right looks harmless. Step 2 hides an instruction in characters you can't see. Press <strong>Check</strong>, or paste your own.</p>
       </div>
 
@@ -95,7 +95,7 @@
       <div class="limits">
         <h3>What a check can't tell you</h3>
         <ul>
-          <li>A clean scan means nothing obvious is wrong. It doesn't mean the skill is good. That's why a person reviews each entry.</li>
+          <li>A clean scan means nothing obvious is wrong. It doesn't mean the skill is good. That's what a human review is for, and most entries haven't had one yet.</li>
           <li>For MCP servers we check the config and what the tools say about themselves, not the server's source code.</li>
           <li>Pattern checks catch known tricks. A new trick can get past them, and a person can miss it too.</li>
         </ul>
@@ -115,7 +115,7 @@
         <li><span>Check it here first.</span> Fix every problem, or be ready to explain why it's safe.</li>
         <li><span>Open a pull request</span> adding <code>registry/&lt;name&gt;/</code> with the files and a <code>godsplan.yml</code> saying where it came from and under what license.</li>
         <li><span>The scanner runs on the pull request.</span> Anything allowed past a check needs a written reason, and that reason is shown on the entry page.</li>
-        <li><span>A maintainer reviews it</span> and runs <code>godsplan review</code>, which pins the review to the content hash.</li>
+        <li><span>A maintainer may review it</span> when they have time, and runs <code>godsplan review</code>, which pins the review to the content hash. Until then it is listed as <em>Scanned</em>.</li>
       </ol>
     </section>
   </main>

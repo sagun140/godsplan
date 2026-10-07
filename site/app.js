@@ -288,6 +288,7 @@ function reviewRequestHtml(e, { review_orders: orders }) {
       <button class="btn btn--small btn--ghost" type="button" data-admin="remove" data-slug="${esc(e.slug)}">Remove</button>
       <span class="form-msg" aria-live="polite"></span></div>` : '';
   if (e.trust === 'verified') return `<section class="block"><h2>Human review</h2><p>Reviewed. ${paid}</p>${admin}</section>`;
+  if (!ME.payments) return `<section class="block"><h2>Human review</h2><p>Not reviewed yet. Reviews are done by one maintainer when they have time. There is no timeline, and you won't be notified.</p>${paid}${admin}</section>`;
   return `
     <section class="block" id="review-request">
       <h2>Get a human review</h2>
@@ -350,7 +351,7 @@ function renderSubmit() {
   }
   box.innerHTML = `
     <form id="submit-form" class="submit-form">
-      <p class="fine">Signed in as <strong>${esc(ME.user.login)}</strong>. Submissions are scanned on upload and listed as <em>Scanned</em> until a maintainer reviews them. Submitting the same name again updates your entry.</p>
+      <p class="fine">Signed in as <strong>${esc(ME.user.login)}</strong>. Submissions are scanned on upload and listed as <em>Scanned</em>. One maintainer reviews entries when they have time; there is no timeline and no notification. Submitting the same name again updates your entry.</p>
       <label>Title<input name="title" maxlength="80" required placeholder="PDF Tools"></label>
       <label>One-sentence summary<input name="summary" maxlength="200" required placeholder="Fills, merges and splits PDFs without uploading them anywhere."></label>
       <div class="submit-form__row">
@@ -409,7 +410,7 @@ function renderAuth() {
     ? `<span class="top__user">${esc(ME.user.login)}</span> <button type="button" class="top__link top__button" id="logout">Sign out</button>`
     : ME.signin ? `<a class="top__link" href="/auth/login?back=${encodeURIComponent(location.hash)}">Sign in</a>` : '';
   $('#logout')?.addEventListener('click', async () => { await api('POST', '/auth/logout'); location.reload(); });
-  $('#tip').hidden = false;
+  $('#tip').hidden = !ME.payments;
   $('#tip-address').textContent = ME.wallet.address;
 }
 

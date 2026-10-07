@@ -1,11 +1,11 @@
 # godsplan
 
-**Agent skills, rules and MCP servers that someone actually checked.**
+**Check agent skills, rules and MCP servers before you trust them.**
 
 Finding a good skill today means digging through GitHub repos, Discord threads and Reddit comments. Half of what you find is out of date, some of it has broken YAML, and some of it hides instructions you can't see. godsplan is a registry where every entry:
 
 1. **passes an automated scanner:** does it load, will it trigger, hidden Unicode, prompt injection, risky scripts, unpinned MCP packages
-2. **is reviewed by a named person:** the review is pinned to a SHA-256 of the exact files, so if one byte changes the badge comes off
+2. **can be reviewed by a named person:** only reviewed entries are marked Verified (most aren't yet), and the review is pinned to a SHA-256 of the exact files, so if one byte changes the badge comes off
 3. **explains itself in plain English:** every finding says why it matters
 
 ## Check anything, right now
@@ -59,6 +59,7 @@ Live at https://godsplan.lexicon-planes.workers.dev. Behind the Worker, the stat
 
 - **Submit from the site.** Sign in with GitHub, paste a file or pick a folder. The server runs the same scanner, refuses anything blocked, and lists the rest as *Scanned*. Submissions share the repo's content hash, so a review drops to *Review outdated* the moment the files change.
 - **Rate anything.** 1 to 5 stars, whether it worked, and which agent it was tested on. One rating per GitHub account per entry; you can't rate your own submission.
+- **Payments are off** (`PAYMENTS: "off"`): the agent API is free and paid reviews and tips are hidden. Set it to `"on"` to turn on everything below.
 - **Paid review requests.** An author sends `REVIEW_PRICE_USDC` USDC on Base to the project wallet and pastes the transaction hash; the Worker checks the transfer on-chain and each transaction pays for one request. Paying buys a review, not the badge.
 - **Agent API (x402).** `GET /api/v1` lists prices. Search is $0.002 and a full entry (files, scan report, trust, ratings) is $0.01, paid in USDC on Base per call. Routes declare Bazaar discovery. Everything is also free on the site and in this repo; the API is for agents that would rather pay a cent than scrape.
 - **Tips** go to the same wallet, shown in the footer.
